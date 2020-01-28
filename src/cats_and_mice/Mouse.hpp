@@ -1,7 +1,7 @@
 #pragma once
 
-#include "observer/IObservable.hpp"
-#include "observer/IObserver.hpp"
+#include "../observer/IObservable.hpp"
+#include "../observer/IObserver.hpp"
 
 #include <vector>
 #include <memory>

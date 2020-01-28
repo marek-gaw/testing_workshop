@@ -1,6 +1,6 @@
 #pragma once
 
-#include "observer/IObserver.hpp"
+#include "../observer/IObserver.hpp"
 #include <string>
 
 class Cat : public IObserver {

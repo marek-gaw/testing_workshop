@@ -1,6 +1,6 @@
 #include "iostream"
-#include "Cat.hpp"
-#include "Mouse.hpp"
+#include "src/cats_and_mice/Cat.hpp"
+#include "src/cats_and_mice/Mouse.hpp"
 
 
 int main()
