@@ -1,5 +1,6 @@
 [requires]
 gtest/1.8.0@bincrafters/stable
 fmt/7.0.1
+boost/1.70.0
 [generators]
 cmake
