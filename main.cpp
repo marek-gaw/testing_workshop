@@ -1,31 +1,14 @@
 #include "iostream"
-#include "Cat.hpp"
-#include "Mouse.hpp"
-
+#include "include/hackerrank.hpp"
 
 int main()
 {
+    // exercise: https://www.hackerrank.com/challenges/queens-attack-2/problem
+    std::vector<int> sample_data1{5,3,4,3};
+    std::vector<std::vector<int>> sample_obstacles1{{5,5}, {4,2}, {2,3}};
 
-    IObserver* cat1 = new Cat("Miauczyslaw");
-    IObserver* cat2 = new Cat("Miauczypuszek");
-
-    Mouse mouse1;
-    Mouse mouse2;
-
-    mouse1.registerObserver(cat1);
-    mouse2.registerObserver(cat2);
-
-    mouse1.update();
-    mouse2.update();
-
-    mouse1.unregisterAllObservers();
-    mouse2.unregisterAllObservers();
-
-    mouse1.update();
-    mouse2.update();
-
-    delete cat1;
-    delete cat2;
+    HackerRankSolution hrs;
+    hrs.solve(sample_data1, sample_obstacles1);
 
     return 0;
 }
