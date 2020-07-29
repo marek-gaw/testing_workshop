@@ -22,8 +22,13 @@ file(GLOB_RECURSE HACKERRANK_SRC ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
 add_library(hackerrank_src ${HACKERRANK_SRC})
 target_include_directories(hackerrank_src PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
+# ring buffer
+file(GLOB_RECURSE RINGBUFFER_SRC ${CMAKE_CURRENT_SOURCE_DIR}/src/ringbuffer/*.cpp)
+add_library(ringbuffer_src ${RINGBUFFER_SRC})
+target_include_directories(ringbuffer_src PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src/ringbuffer)
+
 add_executable(my_app ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp)
-target_link_libraries(my_app hackerrank_src fmt)
+target_link_libraries(my_app hackerrank_src ringbuffer_src fmt pthread)
 
 file(GLOB_RECURSE MY_APP_TEST_SRC ${CMAKE_CURRENT_SOURCE_DIR}/tests/*.cpp)
 add_executable(tests ${MY_APP_TEST_SRC})

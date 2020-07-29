@@ -1,14 +1,73 @@
-#include "iostream"
-#include "include/hackerrank.hpp"
+#include "ringbuffer/include/ringbuffer.hpp"
+#include <fmt/core.h>
+#include <random>
+
+#include <boost/signals2/signal.hpp>
+#include <mutex>
+#include <thread>
+#include <chrono>
+
+boost::signals2::signal<void(Data)> signal_write;
+boost::signals2::signal<Data(void)> signal_read;
+
+struct BufferWriter {
+
+    void loop() {
+        for (int i=0; i<10;i++) {
+            fmt::print("Adding element {},{}\n", i,i);
+            signal_write({i,i});
+
+            std::random_device rd;
+            std::mt19937 mt(rd());
+            std::uniform_int_distribution<int> dist(400, 500);
+            std::this_thread::sleep_for(std::chrono::milliseconds{dist(mt)});
+        }
+    }
+
+    std::thread writerThread() {
+        return std::thread([=] { loop(); });
+    }
+
+    std::uniform_int_distribution<int> dist;
+};
+
+struct BufferReader {
+
+    void loop() {
+        for (int i=0; i<30;i++) {
+            Data d = *(signal_read());
+            fmt::print("Last element in buffer: {}, {}\n", d.x, d.y);
+
+            std::random_device rd;
+            std::mt19937 mt(rd());
+            std::uniform_int_distribution<int> dist(100, 300);
+            std::this_thread::sleep_for(std::chrono::milliseconds{dist(mt)});
+
+        }
+    }
+
+    std::thread readerThread() {
+        return std::thread([=] { loop(); });
+    }
+};
 
 int main()
 {
-    // exercise: https://www.hackerrank.com/challenges/queens-attack-2/problem
-    std::vector<int> sample_data1{5,3,4,3};
-    std::vector<std::vector<int>> sample_obstacles1{{5,5}, {4,2}, {2,3}};
+    RingBuffer buffer(4);
+    BufferWriter bw;
+    BufferReader br;
 
-    HackerRankSolution hrs;
-    hrs.solve(sample_data1, sample_obstacles1);
+   signal_write.connect([&buffer](Data d) {
+        buffer.add(d);
+     });
+   signal_read.connect([&buffer]() {
+         return buffer.get();
+   });
+
+    std::thread t1 = bw.writerThread();
+    std::thread t2 = br.readerThread();
+    t1.join();
+    t2.join();
 
     return 0;
 }
